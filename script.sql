@@ -1,5 +1,8 @@
 CREATE DATABASE proyecto_spring;
 
+DROP TABLE IF EXISTS trabajo;
+DROP TABLE IF EXISTS trabajador;
+
 CREATE TABLE IF NOT EXISTS trabajador
 (
     id_trabajador VARCHAR(5) PRIMARY KEY,
@@ -7,7 +10,7 @@ CREATE TABLE IF NOT EXISTS trabajador
     nombre        VARCHAR(100)        NOT NULL,
     apellidos     VARCHAR(100)        NOT NULL,
     especialidad  VARCHAR(50)         NOT NULL,
-    contraseña    VARCHAR(50)         NOT NULL,
+    contrasenya    VARCHAR(50)         NOT NULL,
     email         VARCHAR(150) UNIQUE NOT NULL
     );
 
