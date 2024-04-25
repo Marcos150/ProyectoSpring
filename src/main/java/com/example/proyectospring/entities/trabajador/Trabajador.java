@@ -1,14 +1,19 @@
 package com.example.proyectospring.entities.trabajador;
 
 import com.example.proyectospring.entities.trabajo.Trabajo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.Fetch;
+
 @Entity
 @Table(name = "trabajador")
-public class Trabajador
+public class Trabajador implements java.io.Serializable
 {
     @Id
     @Column(name = "id_trabajador", nullable = false, length = 5)
@@ -31,8 +36,8 @@ public class Trabajador
 
     @Column(name = "email", nullable = false, length = 150)
     private String email;
-
-    @OneToMany(mappedBy = "idTrabajador")
+    @OneToMany(mappedBy = "idTrabajador",fetch = FetchType.LAZY)
+    @JsonManagedReference
     private Set<Trabajo> trabajos = new LinkedHashSet<>();
 
     public String getIdTrabajador()

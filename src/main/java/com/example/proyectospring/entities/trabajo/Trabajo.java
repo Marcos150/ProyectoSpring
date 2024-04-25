@@ -1,6 +1,10 @@
 package com.example.proyectospring.entities.trabajo;
 
 import com.example.proyectospring.entities.trabajador.Trabajador;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -8,7 +12,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "trabajo")
-public class Trabajo
+public class Trabajo implements java.io.Serializable
 {
     @Id
     @Column(name = "cod_trabajo", nullable = false, length = 5)
@@ -31,6 +35,7 @@ public class Trabajo
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_trabajador")
+    @JsonBackReference
     private Trabajador idTrabajador;
 
     public String getCodTrabajo()
