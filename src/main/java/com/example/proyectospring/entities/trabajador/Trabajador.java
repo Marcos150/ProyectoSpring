@@ -1,15 +1,12 @@
 package com.example.proyectospring.entities.trabajador;
 
 import com.example.proyectospring.entities.trabajo.Trabajo;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
-
-import org.hibernate.annotations.Fetch;
 
 @Entity
 @Table(name = "trabajador")

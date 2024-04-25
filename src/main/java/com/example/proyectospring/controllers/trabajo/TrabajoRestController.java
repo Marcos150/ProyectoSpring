@@ -67,7 +67,7 @@ public class TrabajoRestController{
     @PutMapping("/{code}")
     public ResponseEntity<?> putTrabajo(@PathVariable String code, @RequestBody(required = false) Trabajo trabajo) {
         Map<String, Object> responseMap=new HashMap<String, Object>();
-        if(code!=trabajo.getCodTrabajo())trabajo.setCodTrabajo(code);
+        if(!code.equals(trabajo.getCodTrabajo()))trabajo.setCodTrabajo(code);
         try{
             return new ResponseEntity<Trabajo>(service.update(code, trabajo),HttpStatus.OK);
         }catch(NotFoundException e){

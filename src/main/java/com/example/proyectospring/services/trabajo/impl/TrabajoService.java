@@ -1,6 +1,5 @@
 package com.example.proyectospring.services.trabajo.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import static java.util.Map.entry;
@@ -8,7 +7,6 @@ import static java.util.Map.entry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException.NotFound;
 
 import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.repositories.trabajo.TrabajoRepository;

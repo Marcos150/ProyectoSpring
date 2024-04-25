@@ -2,8 +2,6 @@ package com.example.proyectospring.entities.trabajo;
 
 import com.example.proyectospring.entities.trabajador.Trabajador;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 
