@@ -36,6 +36,9 @@ public class Trabajo implements java.io.Serializable
     @JsonBackReference
     private Trabajador idTrabajador;
 
+    @Column(name = "prioridad", precision = 1, nullable = false)
+    private BigDecimal prioridad;
+
     public String getCodTrabajo()
     {
         return codTrabajo;
@@ -106,4 +109,11 @@ public class Trabajo implements java.io.Serializable
         this.idTrabajador = idTrabajador;
     }
 
+    public BigDecimal getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(BigDecimal prioridad) {
+        this.prioridad = prioridad;
+    }
 }

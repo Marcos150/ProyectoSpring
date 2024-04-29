@@ -10,18 +10,19 @@ CREATE TABLE IF NOT EXISTS trabajador
     nombre        VARCHAR(100)        NOT NULL,
     apellidos     VARCHAR(100)        NOT NULL,
     especialidad  VARCHAR(50)         NOT NULL,
-    contrasenya    VARCHAR(50)         NOT NULL,
+    contrasenya   VARCHAR(50)         NOT NULL,
     email         VARCHAR(150) UNIQUE NOT NULL
-    );
+);
 
 CREATE TABLE IF NOT EXISTS trabajo
 (
     cod_trabajo   VARCHAR(5) PRIMARY KEY,
-    categoria     VARCHAR(50)  NOT NULL,
-    descripcion   VARCHAR(500) NOT NULL,
-    fec_ini       DATE         NOT NULL,
+    categoria     VARCHAR(50)   NOT NULL,
+    descripcion   VARCHAR(500)  NOT NULL,
+    fec_ini       DATE          NOT NULL,
     fec_fin       DATE,
     tiempo        NUMERIC(4, 1),
     id_trabajador VARCHAR(5),
+    prioridad     NUMERIC(1, 0) NOT NULL,
     CONSTRAINT fk_trabajador FOREIGN KEY (id_trabajador) REFERENCES trabajador (id_trabajador)
-    );
+);

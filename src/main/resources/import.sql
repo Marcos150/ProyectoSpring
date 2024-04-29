@@ -6,5 +6,5 @@ INSERT INTO trabajador (id_trabajador, dni, nombre, apellidos, especialidad, con
 
 /* Populate tabla trabajo */
 
-INSERT INTO trabajo (cod_trabajo, categoria, descripcion, fec_ini, fec_fin, tiempo, id_trabajador) VALUES ('1', 'Jardinería', 'Cortar el cesped', '2020-02-02', '2021-02-02', 120, '2');
-INSERT INTO trabajo (cod_trabajo, categoria, descripcion, fec_ini, fec_fin, tiempo, id_trabajador) VALUES ('2', 'Informática', 'Arreglar el wifi', '2020-03-03', '2020-03-20', 50, '3');
+INSERT INTO trabajo (cod_trabajo, categoria, descripcion, fec_ini, fec_fin, tiempo, id_trabajador, prioridad) VALUES ('1', 'Jardinería', 'Cortar el cesped', '2020-02-02', '2021-02-02', 120, '2', 1);
+INSERT INTO trabajo (cod_trabajo, categoria, descripcion, fec_ini, fec_fin, tiempo, id_trabajador, prioridad) VALUES ('2', 'Informática', 'Arreglar el wifi', '2020-03-03', '2020-03-20', 50, '3', 4);
