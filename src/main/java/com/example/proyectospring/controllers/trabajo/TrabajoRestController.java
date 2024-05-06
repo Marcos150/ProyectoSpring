@@ -98,9 +98,10 @@ public class TrabajoRestController{
             return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping({"/"})
-    public String getMethodName(@RequestParam String param) {
-        return new String();
+    @GetMapping({"/noJoin","/noJoin/"})
+    public List<Trabajo> getTrabajosNoAsignados() {
+
+        return service.getTrabajosNoAsignados();
     }
     
 }

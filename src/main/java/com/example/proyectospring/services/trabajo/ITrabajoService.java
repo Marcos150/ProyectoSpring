@@ -14,4 +14,5 @@ public interface ITrabajoService
     public Trabajo save(Trabajo trabajo) throws Exception;
     public Trabajo update(String code,Trabajo trabajo) throws NotFoundException;
     public Map<String,Object> delete(String code) throws NotFoundException;
+    public List<Trabajo> getTrabajosNoAsignados();
 }

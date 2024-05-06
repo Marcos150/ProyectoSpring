@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.Map;
 import static java.util.Map.entry;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import com.example.proyectospring.entities.trabajo.Trabajo;
@@ -44,6 +47,9 @@ public class TrabajoService implements ITrabajoService
         if(!repository.existsById(code)) throw new NotFoundException();
         repository.deleteById(code);
         return Map.ofEntries(entry("ok", true));
+    }
+    public List<Trabajo> getTrabajosNoAsignados(){
+        return repository.getTrabajosNoAsignados();
     }
     
 }
