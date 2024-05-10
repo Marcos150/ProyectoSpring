@@ -1,27 +1,18 @@
 package com.example.proyectospring.controllers.trabajo;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -36,7 +27,6 @@ import jakarta.servlet.http.HttpServletRequest;
 public class TrabajoExceptionHandler {
     @Autowired
     private TrabajoService service;
-
     private Trabajo job;
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -91,13 +81,12 @@ public class TrabajoExceptionHandler {
         exception.getBindingResult().getFieldErrors().forEach(result->{
             model.addObject(result.getField(), result.getDefaultMessage());
         });
+        //Hardcoded
         exception.getGlobalErrors().forEach(result->{
-            System.out.println(result.getDefaultMessage());
             model.addObject("dateRange", result.getDefaultMessage());
         });
         model.addObject("trabajo", job);
         model.addObject("error", "Error validando el formulario");
-        System.out.println(job.getCodTrabajo());
         return model;
     }
     private ModelAndView discriminateURL(HttpServletRequest req,MethodArgumentNotValidException exception){

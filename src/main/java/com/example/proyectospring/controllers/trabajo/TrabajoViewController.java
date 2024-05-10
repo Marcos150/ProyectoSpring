@@ -1,13 +1,10 @@
 package com.example.proyectospring.controllers.trabajo;
 
-import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.View;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,9 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.services.trabajo.ITrabajoService;
 
-
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 

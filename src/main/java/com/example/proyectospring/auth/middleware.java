@@ -1,8 +1,6 @@
 package com.example.proyectospring.auth;
 
 import org.springframework.expression.EvaluationException;
-import org.springframework.web.client.HttpClientErrorException.Forbidden;
-import org.springframework.web.client.HttpClientErrorException.Unauthorized;
 
 import com.example.proyectospring.entities.trabajador.Trabajador;
 

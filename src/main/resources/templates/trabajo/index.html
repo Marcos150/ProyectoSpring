@@ -62,20 +62,33 @@
                 <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
                 <label for="codTrabajo" class="form-label">Código del trabajo:</label>
                 <div class="alert alert-danger" th:if="${codTrabajo != null}" th:text="${codTrabajo}"></div>
-                <input class="form-control" type="text" name="codTrabajo" id="codTrabajo">
+                <input class="form-control" type="text" name="codTrabajo" id="codTrabajo" th:if="${trabajo!=null}" th:value="${trabajo.codTrabajo}">
+                <input class="form-control" type="text" name="codTrabajo" id="codTrabajo" th:if="${trabajo==null}">
                 <label for="categoria">Categoría:</label>
                 <div class="alert alert-danger" th:if="${categoria != null}" th:text="${categoria}"></div>
-                <input type="text" name="categoria" id="categoria" class="form-control">
+                <input type="text" name="categoria" id="categoria" class="form-control" th:if="${trabajo!=null}" th:value="${trabajo.categoria}">
+                <input type="text" name="categoria" id="categoria" class="form-control" th:if="${trabajo==null}">
                 <label for="descripcion">Descripción:</label>
-                <textarea name="descripcion" id="descripcion" cols="30" rows="10" class="form-control"></textarea>
+                <div class="alert alert-danger" th:if="${descripcion != null}" th:text="${descripcion}"></div>
+                <textarea name="descripcion" id="descripcion" cols="30" rows="10" class="form-control" th:if="${trabajo!=null}" th:field="${trabajo.descripcion}"></textarea>
+                <textarea name="descripcion" id="descripcion" cols="30" rows="10" class="form-control" th:if="${trabajo==null}"></textarea>
                 <label for="fecIni">Fecha Inicio:</label>
-                <input class="form-control" type="date" name="fecIni" id="fecIni">
+                <div class="alert alert-danger" th:if="${dateRange != null}" th:text="${dateRange}"></div>
+                <div class="alert alert-danger" th:if="${fecIni != null}" th:text="${fecIni}"></div>
+                <input class="form-control" type="date" name="fecIni" id="fecIni" th:if="${trabajo!=null}" th:value="${trabajo.fecIni}">
+                <input class="form-control" type="date" name="fecIni" id="fecIni" th:if="${trabajo==null}">
                 <label for="fec_fin">Fecha Fin:</label>
-                <input class="form-control" type="date" name="fecFin" id="fecFin">
+                <div class="alert alert-danger" th:if="${fecFin != null}" th:text="${fecFin}"></div>
+                <input class="form-control" type="date" name="fecFin" id="fecFin" th:if="${trabajo!=null}" th:value="${trabajo.fecFin}">
+                <input class="form-control" type="date" name="fecFin" id="fecFin" th:if="${trabajo==null}">
                 <label for="tiempo">Tiempo:</label>
-                <input class="form-control" type="number" name="tiempo" id="tiempo">
+                <div class="alert alert-danger" th:if="${tiempo != null}" th:text="${tiempo}"></div>
+                <input class="form-control" type="number" name="tiempo" id="tiempo" th:if="${trabajo!=null}" th:value="${trabajo.tiempo}">
+                <input class="form-control" type="number" name="tiempo" id="tiempo" th:if="${trabajo==null}">
                 <label for="tiempo">Prioridad:</label>
-                <input class="form-control" type="number" name="prioridad" id="prioridad">
+                <div class="alert alert-danger" th:if="${prioridad != null}" th:text="${prioridad}"></div>
+                <input class="form-control" type="number" name="prioridad" id="prioridad" th:if="${trabajo!=null}" th:value="${trabajo.prioridad}">
+                <input class="form-control" type="number" name="prioridad" id="prioridad" th:if="${trabajo==null}">
                 <button class="btn btn-primary m-auto mt-1 p-2" type="submit">Crear nuevo trabajo</button>
             </form>
 

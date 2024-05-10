@@ -1,15 +1,11 @@
 package com.example.proyectospring.services.trabajo;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
-import org.springframework.data.jpa.repository.Query;
 
-import com.example.proyectospring.entities.trabajador.Trabajador;
 import com.example.proyectospring.entities.trabajo.Trabajo;
 
 import ch.qos.logback.core.boolex.EvaluationException;

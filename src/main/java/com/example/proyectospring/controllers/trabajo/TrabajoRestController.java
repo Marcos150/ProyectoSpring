@@ -1,33 +1,27 @@
 package com.example.proyectospring.controllers.trabajo;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.expression.EvaluationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.proyectospring.auth.middleware;
 import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.services.trabajo.ITrabajoService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityExistsException;
 import jakarta.validation.Valid;
 
@@ -95,7 +89,6 @@ public class TrabajoRestController{
         catch(Exception e){
             responseMap.put("error", "No pudo completar la operación");
             responseMap.put("message", e.getMessage());
-            System.out.println(e.getClass().getName());
         }
         return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.BAD_REQUEST);
 

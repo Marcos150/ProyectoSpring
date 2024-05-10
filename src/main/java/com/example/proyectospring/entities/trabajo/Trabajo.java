@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -23,11 +24,13 @@ public class Trabajo implements java.io.Serializable
     @Column(name = "cod_trabajo", nullable = false, length = 5)
     @Size(max = 5, message = "La longitud máxima del código de trabajo es de 5 caracteres")
     @NotNull(message = "No puede ser nulo")
+    @NotEmpty(message = "El campo código trabajo no puede estar vacío")
     private String codTrabajo;
 
     @Column(name = "categoria", nullable = false, length = 50)
     @Size(max = 50, message = "La longitud máxima de la categoría máxima es de 50 caracteres")
     @NotNull(message = "No puede ser nulo")
+    @NotEmpty(message = "El campo categoría no puede estar vacío")
     private String categoria;
 
     @Column(name = "descripcion", nullable = false, length = 500)
