@@ -24,6 +24,7 @@
         <textarea name="descripcion" id="descripcion" cols="30" rows="10" class="form-control" th:field="${trabajo.descripcion}"></textarea>
         <label for="fecIni">Fecha Inicio:</label>
         <div class="alert alert-danger" th:if="${dateRange != null}" th:text="${dateRange}"></div>
+        <div class="alert alert-danger" th:if="${fecIni != null}" th:text="${fecIni}"></div>
         <input class="form-control" type="date" name="fecIni" id="fecIni" th:value="${trabajo.fecIni}">
         <label for="fec_fin">Fecha Fin:</label>
         <input class="form-control" type="date" name="fecFin" id="fecFin" th:value="${trabajo.fecFin}">
