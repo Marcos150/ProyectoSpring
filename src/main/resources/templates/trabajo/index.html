@@ -33,6 +33,10 @@
                             <div class="col-6 text-start">Tiempo:</div>
                             <div class="col-6" th:text="${trabajo.tiempo}+h"></div>
                         </div>
+                        <div class="row">
+                            <div class="col-6 text-start">Prioridad:</div>
+                            <div class="col-6" th:text="${trabajo.prioridad}"></div>
+                        </div>
                     </div>
 
                     <div class="card-footer">
@@ -45,7 +49,7 @@
                 </div>
             </a>
             <div class="row m-1 ms-2">
-                <a href="" class="btn btn-warning col-5 m-auto">Modificar</a>
+                <a th:href="@{/app/trabajo/}+${trabajo.codTrabajo}" class="btn btn-warning col-5 m-auto">Modificar</a>
                 <a th:href="@{/app/trabajo/delete/}+${trabajo.codTrabajo}" thli
                     class="btn btn-danger col-5 m-auto">Borrar</a>
             </div>
@@ -55,9 +59,12 @@
 
             <form class="card p-3 mb-2" action="/app/trabajo/create" method="post" content>
                 <div class="text-bg-primary p-3 text-center">Formulario de creación de oficio</div>
+                <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
                 <label for="codTrabajo" class="form-label">Código del trabajo:</label>
+                <div class="alert alert-danger" th:if="${codTrabajo != null}" th:text="${codTrabajo}"></div>
                 <input class="form-control" type="text" name="codTrabajo" id="codTrabajo">
                 <label for="categoria">Categoría:</label>
+                <div class="alert alert-danger" th:if="${categoria != null}" th:text="${categoria}"></div>
                 <input type="text" name="categoria" id="categoria" class="form-control">
                 <label for="descripcion">Descripción:</label>
                 <textarea name="descripcion" id="descripcion" cols="30" rows="10" class="form-control"></textarea>
@@ -67,6 +74,8 @@
                 <input class="form-control" type="date" name="fecFin" id="fecFin">
                 <label for="tiempo">Tiempo:</label>
                 <input class="form-control" type="number" name="tiempo" id="tiempo">
+                <label for="tiempo">Prioridad:</label>
+                <input class="form-control" type="number" name="prioridad" id="prioridad">
                 <button class="btn btn-primary m-auto mt-1 p-2" type="submit">Crear nuevo trabajo</button>
             </form>
 

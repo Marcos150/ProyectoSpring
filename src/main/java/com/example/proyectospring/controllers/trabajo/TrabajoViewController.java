@@ -1,5 +1,7 @@
 package com.example.proyectospring.controllers.trabajo;
 
+import java.util.HashMap;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties.View;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.services.trabajo.ITrabajoService;
+
+
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
@@ -32,30 +36,27 @@ public class TrabajoViewController {
         return "/trabajo/index.html";
     }
     @GetMapping({"/{id}","/{id}/"})
-    public String loadDetail(@RequestParam String param) {
-        return new String();
+    public String loadDetail(@PathVariable String id,Model model) {
+        model.addAttribute("trabajo",service.getTrabajoById(id));
+        return "/trabajo/detail.html";
     }
     
-    @RequestMapping({"/create","/create/"})
-    public RedirectView create(@Validated Trabajo trabajo) {
-        try {
-            service.save(trabajo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    @PostMapping({"/create","/create/"})
+    public Object create(@Validated Trabajo trabajo) {
+        service.save(trabajo);
         return new RedirectView("/app/trabajo");
     }
-    @GetMapping({"/put","/put/"})
-    public RedirectView getMethodName(@Validated Trabajo trabajo) {
+    @PostMapping({"/put/{id}","/put/{id}/"})
+    public Object put(@PathVariable String id,@Validated Trabajo trabajo,Model model) {
         try {
-            service.save(trabajo);
-        } catch (Exception e) {
-            e.printStackTrace();
+            service.update(id,trabajo);
+        } catch (NotFoundException e) {
+            return new RedirectView("/app/trabajo");
         }
         return new RedirectView("/app/trabajo");
     }
     @GetMapping({"/delete/{id}","/delete/{id}/"})
-    public RedirectView getMethodName(@PathVariable String id) {
+    public RedirectView delete(@PathVariable String id) {
         try {
             service.delete(id);
         } catch (NotFoundException e) {

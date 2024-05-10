@@ -11,26 +11,29 @@
     crossorigin="anonymous"></script>
 </head>
 <body>
-
     <nav th:insert="~{/shared/navbar :: #navigator}"></nav>
-    <div class="card">
-        <div class="card-title text-center bg-success rounded-top-1 text-white"
-            th:text="${trabajo.categoria}"></div>
-        <div class="card-body text-start ps-5" th:text="${trabajo.descripcion}"></div>
-        <div class="card-body text-end text-black-50">
-            <div class="row">
-                <div class="col-6 text-start">Tiempo:</div>
-                <div class="col-6" th:text="${trabajo.tiempo}+h"></div>
-            </div>
-        </div>
-
-        <div class="card-footer">
-            <div class="row">
-                <div class="col-6 text-center" th:text="${trabajo.fecIni}"></div>
-                <div class="col-6 text-center" th:text="${trabajo.fecFin}"></div>
-            </div>
-
-        </div>
-    </div>
+    <form class="card p-3 mb-2" th:action="@{/app/trabajo/put/}+${trabajo.codTrabajo}" method="post" content>
+        <div class="text-bg-warning p-3 text-center">Formulario de edición de oficio</div>
+        <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+        <input class="form-control" type="hidden" name="codTrabajo" id="codTrabajo" th:value="${trabajo.codTrabajo}">
+        <label for="categoria">Categoría:</label>
+        <div class="alert alert-danger" th:if="${categoria != null}" th:text="${categoria}"></div>
+        <input type="text" name="categoria" id="categoria" class="form-control" th:value="${trabajo.categoria}">
+        <label for="descripcion">Descripción:</label>
+        <div class="alert alert-danger" th:if="${descripcion != null}" th:text="${descripcion}"></div>
+        <textarea name="descripcion" id="descripcion" cols="30" rows="10" class="form-control" th:field="${trabajo.descripcion}"></textarea>
+        <label for="fecIni">Fecha Inicio:</label>
+        <div class="alert alert-danger" th:if="${dateRange != null}" th:text="${dateRange}"></div>
+        <input class="form-control" type="date" name="fecIni" id="fecIni" th:value="${trabajo.fecIni}">
+        <label for="fec_fin">Fecha Fin:</label>
+        <input class="form-control" type="date" name="fecFin" id="fecFin" th:value="${trabajo.fecFin}">
+        <label for="tiempo">Tiempo:</label>
+        <div class="alert alert-danger" th:if="${tiempo != null}" th:text="${tiempo}"></div>
+        <input class="form-control" type="number" name="tiempo" id="tiempo" th:value="${trabajo.tiempo}">
+        <label for="tiempo">Prioridad:</label>
+        <div class="alert alert-danger" th:if="${prioridad != null}" th:text="${prioridad}"></div>
+        <input class="form-control" type="number" name="prioridad" id="prioridad" th:value="${trabajo.prioridad}">
+        <button class="btn btn-warning m-auto mt-1 p-2" type="submit">Modificar trabajo</button>
+    </form>
 </body>
 </html>
