@@ -48,7 +48,7 @@ public class TrabajoService implements ITrabajoService
     @Override
     public Trabajo update(String code,Trabajo trabajo) throws NotFoundException{
         if(!repository.existsById(code)) throw new NotFoundException();
-        
+
         return repository.save(trabajo);
     }
 
@@ -90,5 +90,11 @@ public class TrabajoService implements ITrabajoService
         int prioN=Integer.parseInt(prio);
         return repository.getTrabajosTrabajadorByPrio(codTrabajador,prioN);
     }
-    
+
+
+    @Override
+    public List<Trabajo> getTrabajosByTrabajador(String id, String password) {
+        return repository.getTrabajosByTrabajador(id, password);
+    }
+
 }

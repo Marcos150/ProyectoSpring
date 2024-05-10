@@ -11,10 +11,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.expression.EvaluationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.services.trabajo.ITrabajoService;
@@ -153,5 +150,14 @@ public class TrabajoRestController{
             responseMap.put("message", e.getMessage());
             return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.BAD_REQUEST);
         }
+    }
+    @GetMapping({"/"})
+    public String getMethodName(@RequestParam String param) {
+        return new String();
+    }
+
+    @PostMapping({"/login"})
+    public List<Trabajo> login(@RequestBody String id_trabajador, @RequestBody String password) {
+        return service.getTrabajosByTrabajador(id_trabajador, password);
     }
 }

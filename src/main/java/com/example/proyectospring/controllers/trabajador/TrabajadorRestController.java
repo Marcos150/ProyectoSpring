@@ -2,7 +2,6 @@ package com.example.proyectospring.controllers.trabajador;
 
 import com.example.proyectospring.entities.trabajador.Trabajador;
 import com.example.proyectospring.services.trabajador.ITrabajadorService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +16,11 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/api/trabajadores")
 public class TrabajadorRestController {
-    @Autowired
-    private ITrabajadorService service;
+    private final ITrabajadorService service;
+
+    public TrabajadorRestController(ITrabajadorService service) {
+        this.service = service;
+    }
 
     @GetMapping({"", "/"})
     public List<Trabajador> getAll() {
