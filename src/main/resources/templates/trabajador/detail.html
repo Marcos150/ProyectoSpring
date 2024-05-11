@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<nav th:insert="~{/shared/navbar :: #navigator}"></nav>
+<main>
+    <form class="card p-3 mb-2" th:action="@{/app/trabajador/put/}+${trabajador.idTrabajador}" method="post" content>
+        <div class="text-bg-primary p-3 text-center">Formulario de edición de trabajador</div>
+        <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
+        <label for="idTrabajador" class="form-label">Id del trabajador</label>
+        <div class="alert alert-danger" th:if="${idTrabajador != null}" th:text="${idTrabajador}"></div>
+        <input class="form-control" type="text" name="idTrabajador" id="idTrabajador"
+               th:value="${trabajador.idTrabajador}">
+        <label for="dni">DNI:</label>
+        <div class="alert alert-danger" th:if="${dni != null}" th:text="${dni}"></div>
+        <input type="text" name="dni" id="dni" class="form-control" th:value="${trabajador.dni}">
+        <label for="nombre">Nombre:</label>
+        <div class="alert alert-danger" th:if="${nombre != null}" th:text="${nombre}"></div>
+        <textarea name="nombre" id="nombre" cols="30" rows="10" class="form-control"
+                  th:field="${trabajador.nombre}"></textarea>
+        <label for="apellidos">Apellidos:</label>
+        <!--<div class="alert alert-danger" th:if="${dateRange != null}" th:text="${dateRange}"></div>-->
+        <div class="alert alert-danger" th:if="${apellidos != null}" th:text="${apellidos}"></div>
+        <input class="form-control" type="text" name="apellidos" id="apellidos" th:value="${trabajador.apellidos}">
+        <label for="especialidad">Especialidad:</label>
+        <div class="alert alert-danger" th:if="${especialidad != null}" th:text="${especialidad}"></div>
+        <input class="form-control" type="text" name="especialidad" id="especialidad"
+               th:value="${trabajador.especialidad}">
+        <label for="contrasenya">Contraseña:</label>
+        <div class="alert alert-danger" th:if="${contrasenya != null}" th:text="${contrasenya}"></div>
+        <input class="form-control" type="text" name="contrasenya" id="contrasenya"
+               th:value="${trabajador.contrasenya}">
+        <label for="email">Email:</label>
+        <div class="alert alert-danger" th:if="${email != null}" th:text="${email}"></div>
+        <input class="form-control" type="email" name="email" id="email" th:value="${trabajador.email}">
+        <button class="btn btn-primary m-auto mt-1 p-2" type="submit">Modificar trabajador</button>
+    </form>
+</main>
+</body>
+</html>

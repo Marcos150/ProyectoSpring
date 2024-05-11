@@ -4,6 +4,7 @@ import com.example.proyectospring.entities.trabajador.Trabajador;
 import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.repositories.trabajador.TrabajadorRepository;
 import com.example.proyectospring.services.trabajador.ITrabajadorService;
+import jakarta.persistence.EntityExistsException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +27,13 @@ public class TrabajadorService implements ITrabajadorService {
     }
 
     @Override
-    public Trabajador save(Trabajador trabajador) throws Exception {
-        if(repository.existsById(trabajador.getIdTrabajador())) throw new Exception("Already in database, use update endpoint");
+    public Trabajador save(Trabajador trabajador) throws EntityExistsException {
+        if(repository.existsById(trabajador.getIdTrabajador())) throw new EntityExistsException("Already in database, use update endpoint");
         return repository.save(trabajador);
     }
 
     @Override
-    public Trabajador update(String id, Trabajador trabajador) throws Exception {
+    public Trabajador update(String id, Trabajador trabajador) throws ChangeSetPersister.NotFoundException {
         if(!repository.existsById(id)) throw new ChangeSetPersister.NotFoundException();
         return repository.save(trabajador);
     }
