@@ -15,8 +15,6 @@ import java.util.List;
 
 public interface TrabajoRepository extends CrudRepository<Trabajo,String>
 {
-    @Query("SELECT t FROM Trabajo t, Trabajador u WHERE t.idTrabajador.idTrabajador = u.idTrabajador AND t.idTrabajador = :id_trabajador AND u.contrasenya = :password")
-    List<Trabajo> getTrabajosByTrabajador(@Param("id_trabajador") String id_trabajador, @Param("password") String password);
     @Query("SELECT t FROM Trabajo t WHERE t.idTrabajador is NULL")
     public List<Trabajo> getTrabajosNoAsignados();
     @Query("SELECT t FROM Trabajo t WHERE t.idTrabajador is not NULL and t.fecFin is NULL")

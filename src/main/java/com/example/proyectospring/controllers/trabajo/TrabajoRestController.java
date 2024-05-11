@@ -1,10 +1,7 @@
 package com.example.proyectospring.controllers.trabajo;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
@@ -154,10 +151,5 @@ public class TrabajoRestController{
     @GetMapping({"/"})
     public String getMethodName(@RequestParam String param) {
         return new String();
-    }
-
-    @PostMapping({"/login"})
-    public List<Trabajo> login(@RequestBody String id_trabajador, @RequestBody String password) {
-        return service.getTrabajosByTrabajador(id_trabajador, password);
     }
 }

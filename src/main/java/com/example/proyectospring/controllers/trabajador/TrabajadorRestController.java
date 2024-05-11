@@ -1,7 +1,14 @@
 package com.example.proyectospring.controllers.trabajador;
 
 import com.example.proyectospring.entities.trabajador.Trabajador;
+import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.services.trabajador.ITrabajadorService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +21,7 @@ import java.util.NoSuchElementException;
 
 @CrossOrigin(origins = {"*"})
 @RestController
-@RequestMapping("/api/trabajadores")
+@RequestMapping("/api/trabajador")
 public class TrabajadorRestController {
     private final ITrabajadorService service;
 
@@ -22,13 +29,24 @@ public class TrabajadorRestController {
         this.service = service;
     }
 
+    @Operation(summary = "Devuelve todos los trabajadores")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trabajadores devueltos con éxito")
+    })
     @GetMapping({"", "/"})
     public List<Trabajador> getAll() {
         return service.getAllTrabajadores();
     }
 
+    @Operation(summary = "Devuelve el trabajador con el id pasado por parámetro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trabajador devuelto con éxito", content =
+                    { @Content(mediaType = "application/json", schema = @Schema(implementation = Trabajador.class)) }),
+            @ApiResponse(responseCode = "404", description = "No existe un trabajador con el id pasado por parámetro"),
+            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición")
+    })
     @GetMapping( {"/{id}"})
-    public ResponseEntity<?> getTrabajadorById(@PathVariable String id) {
+    public ResponseEntity<?> getTrabajadorById(@PathVariable @Parameter(description = "Id del trabajador") String id) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.getTrabajadorById(id), HttpStatus.OK);
@@ -43,6 +61,12 @@ public class TrabajadorRestController {
         }
     }
 
+    @Operation(summary = "Añade el trabajador pasado por el cuerpo de la petición")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trabajador insertado con éxito", content =
+                    { @Content(mediaType = "application/json", schema = @Schema(implementation = Trabajador.class)) }),
+            @ApiResponse(responseCode = "400", description = "Error en los datos pasados en el cuerpo de la petición")
+    })
     @PostMapping({"", "/"})
     public ResponseEntity<?> postTrabajo(@RequestBody(required = false) Trabajador trabajador) {
         Map<String, Object> responseMap = new HashMap<>();
@@ -55,8 +79,14 @@ public class TrabajadorRestController {
         }
     }
 
+    @Operation(summary = "Edita el trabajador con el id pasado por parámetro y devuelve su estado antes de los cambios")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trabajador editado con éxito", content =
+                    { @Content(mediaType = "application/json", schema = @Schema(implementation = Trabajador.class)) }),
+            @ApiResponse(responseCode = "400", description = "Error en los datos pasados en el cuerpo de la petición")
+    })
     @PutMapping({"/{id}"})
-    public ResponseEntity<?> putTrabajador(@PathVariable String id, @RequestBody(required = false) Trabajador trabajador) {
+    public ResponseEntity<?> putTrabajador(@PathVariable @Parameter(description = "Id del trabajador") String id, @RequestBody(required = false) Trabajador trabajador) {
         Map<String, Object> responseMap = new HashMap<>();
         if (!id.equals(trabajador.getIdTrabajador())) trabajador.setIdTrabajador(id);
         try {
@@ -72,8 +102,14 @@ public class TrabajadorRestController {
         }
     }
 
+    @Operation(summary = "Borra el trabajador con el id pasado por parámetro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trabajador borrado con éxito"),
+            @ApiResponse(responseCode = "404", description = "No existe un trabajador con el id pasado por parámetro"),
+            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición")
+    })
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<?> deleteTrabajo(@PathVariable String id) {
+    public ResponseEntity<?> deleteTrabajo(@PathVariable @Parameter(description = "Id del trabajador") String id) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
@@ -85,6 +121,35 @@ public class TrabajadorRestController {
             responseMap.put("error", "Se ha producido un error durante el borrado");
             responseMap.put("message", e.getMessage());
             return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @Operation(summary = "Si el id y la contraseña del trabajador son correctos, devuelve una lista con los trabajos asignados al trabajador")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Las credenciales son correctas"),
+            @ApiResponse(responseCode = "401", description = "Las credenciales no son correctas", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class)) }),
+            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class)) })
+    })
+    @PostMapping({"/login"})
+    public List<Trabajo> login(@RequestBody String id_trabajador, @RequestBody String password) {
+        return service.getTrabajosByTrabajador(id_trabajador, password);
+    }
+
+    @Operation(summary = "Si el id y la contraseña del trabajador son correctos, devuelve una lista con los trabajos finalizados del trabajador")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Las credenciales son correctas"),
+            @ApiResponse(responseCode = "401", description = "Las credenciales no son correctas", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class)) }),
+            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class)) })
+    })
+    @PostMapping({"/trabajos-finalizados"})
+    public List<Trabajo> trabajosFinalizados(@RequestBody(required = false) String id_trabajador, @RequestBody(required = false) String password) {
+        try {
+            System.out.println("Id trabajador:" + id_trabajador);
+            System.out.println("Pass:" + password);
+            return service.getTrabajosByTrabajadorFinalizados(id_trabajador, password);
+        } catch (Exception e) {
+            System.out.println("Pass: " + password);
+            return service.getTrabajosByTrabajadorFinalizados(id_trabajador, password);
         }
     }
 }

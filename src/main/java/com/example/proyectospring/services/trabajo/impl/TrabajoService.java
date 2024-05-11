@@ -90,11 +90,4 @@ public class TrabajoService implements ITrabajoService
         int prioN=Integer.parseInt(prio);
         return repository.getTrabajosTrabajadorByPrio(codTrabajador,prioN);
     }
-
-
-    @Override
-    public List<Trabajo> getTrabajosByTrabajador(String id, String password) {
-        return repository.getTrabajosByTrabajador(id, password);
-    }
-
 }
