@@ -90,4 +90,9 @@ public class TrabajoService implements ITrabajoService
         int prioN=Integer.parseInt(prio);
         return repository.getTrabajosTrabajadorByPrio(codTrabajador,prioN);
     }
+
+    @Override
+    public int finalizarTrabajo(String codTrabajador) {
+        return repository.finalizarTrabajo(codTrabajador);
+    }
 }

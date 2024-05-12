@@ -3,6 +3,9 @@ package com.example.proyectospring.controllers.trabajo;
 import java.sql.Date;
 import java.util.*;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.expression.EvaluationException;
@@ -151,5 +154,23 @@ public class TrabajoRestController{
     @GetMapping({"/"})
     public String getMethodName(@RequestParam String param) {
         return new String();
+    }
+
+    @PatchMapping("/finalizar/{id}")
+    @Operation(summary = "Cambia la fecha de finalización del trabajo pasado con el código por parámetro a la fecha actual")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fecha de finalización modificada con éxito"),
+            @ApiResponse(responseCode = "404", description = "No existe un trabajo con el código pasado por parámetro", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class)) }),
+            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = Object.class)) })
+    })
+    public ResponseEntity<?> finalizarTrabajo(@PathVariable @Parameter(description = "Código del trabajo") String id) {
+        if (service.finalizarTrabajo(id) <= 0) {
+            Map<String, Object> responseMap= new HashMap<>();
+            responseMap.put("error", "No se ha encontrado un trabajo con el código pasado por parámetro");
+            responseMap.put("message", "Not in database");
+            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
+        }
+        else
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 }
