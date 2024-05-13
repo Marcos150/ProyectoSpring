@@ -61,7 +61,7 @@ public class TrabajadorRestController {
             })})
     })
     @GetMapping({"/{id}"})
-    public ResponseEntity<?> getTrabajadorById(@PathVariable @Parameter(description = "Id del trabajador") String id) {
+    public ResponseEntity<?> getTrabajadorById(@PathVariable @Parameter(description = "Id del trabajador", example = "1") String id) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.getTrabajadorById(id), HttpStatus.OK);
@@ -90,7 +90,7 @@ public class TrabajadorRestController {
             })})
     })
     @PostMapping({"", "/"})
-    public ResponseEntity<?> postTrabajo(@RequestBody(required = false) Trabajador trabajador) {
+    public ResponseEntity<?> postTrabajo(@RequestBody(required = false) @Parameter(description = "Trabajador a insertar") Trabajador trabajador) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.save(trabajador), HttpStatus.OK);
@@ -123,7 +123,7 @@ public class TrabajadorRestController {
             })})
     })
     @PutMapping({"/{id}"})
-    public ResponseEntity<?> putTrabajador(@PathVariable @Parameter(description = "Id del trabajador") String id, @RequestBody(required = false) Trabajador trabajador) {
+    public ResponseEntity<?> putTrabajador(@PathVariable @Parameter(description = "Id del trabajador a editar", example = "1") String id, @RequestBody(required = false) Trabajador trabajador) {
         Map<String, Object> responseMap = new HashMap<>();
         if (!id.equals(trabajador.getIdTrabajador())) trabajador.setIdTrabajador(id);
         try {
@@ -160,7 +160,7 @@ public class TrabajadorRestController {
             })})
     })
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<?> deleteTrabajo(@PathVariable @Parameter(description = "Id del trabajador") String id) {
+    public ResponseEntity<?> deleteTrabajo(@PathVariable @Parameter(description = "Id del trabajador a borrar", example = "1") String id) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
