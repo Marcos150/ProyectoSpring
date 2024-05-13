@@ -29,4 +29,8 @@ public interface TrabajoRepository extends CrudRepository<Trabajo,String>
     @Transactional //Necesario ya que si no lanza error
     @Query("UPDATE Trabajo t SET t.fecFin = current_date WHERE t.codTrabajo = :codTrabajo")
     public int finalizarTrabajo(@Param("codTrabajo") String codTrabajo);
+    @Modifying(flushAutomatically = true)
+    @Transactional //Necesario ya que si no lanza error
+    @Query("UPDATE Trabajo t SET t.idTrabajador.idTrabajador = :idTrabajador WHERE t.codTrabajo = :codTrabajo")
+    public int asignarTrabajo(@Param("codTrabajo") String codTrabajo, @Param("idTrabajador") String idTrabajador);
 }

@@ -92,7 +92,12 @@ public class TrabajoService implements ITrabajoService
     }
 
     @Override
-    public int finalizarTrabajo(String codTrabajador) {
-        return repository.finalizarTrabajo(codTrabajador);
+    public void finalizarTrabajo(String codTrabajo) throws NotFoundException {
+        if (repository.finalizarTrabajo(codTrabajo) <= 0) throw new NotFoundException();
+    }
+
+    @Override
+    public void asignarTrabajo(String codTrabajador, String idTrabajador) throws NotFoundException {
+        if (repository.asignarTrabajo(codTrabajador,idTrabajador) <= 0) throw  new NotFoundException();
     }
 }

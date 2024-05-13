@@ -25,5 +25,6 @@ public interface ITrabajoService
     public List<Trabajo> getTrabajosFinalizadosFromTrabajadorBtwFechas(String codTrabajador,java.util.Date fecStart,java.util.Date fecEnd);
     public List<Trabajo> getTrabajosPrio();
     public List<Trabajo> getTrabajosTrabajadorByPrio(String codTrabajador, String prio, String pass) throws EvaluationException,NoSuchElementException,Exception,NumberFormatException;
-    public int finalizarTrabajo(String codTrabajador);
+    public void finalizarTrabajo(String codTrabajo) throws NotFoundException;
+    public void asignarTrabajo(String codTrabajador, String idTrabajador) throws NotFoundException;
 }
