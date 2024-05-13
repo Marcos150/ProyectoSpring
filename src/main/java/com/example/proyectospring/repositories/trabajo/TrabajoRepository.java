@@ -3,6 +3,8 @@ package com.example.proyectospring.repositories.trabajo;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -19,8 +21,8 @@ public interface TrabajoRepository extends CrudRepository<Trabajo,String>
     public List<Trabajo> getTrabajosSinFinalizar();
     @Query("SELECT t FROM Trabajo t WHERE t.idTrabajador is not NULL and t.fecFin is not NULL")
     public List<Trabajo> getTrabajosRealizados();
-    @Query("SELECT t FROM Trabajo t WHERE t.idTrabajador=:codT and t.fecFin between :fecStart AND :fecEnd")
-    public List<Trabajo> getTrabajosFinalizadosFromTrabajadorBtwFechas(@Param("codT")String codTrabajador,@Param("fecStart")Date fecStart,@Param("fecEnd")Date fecEnd);
+    @Query("SELECT t FROM Trabajo t WHERE t.idTrabajador.idTrabajador=:codT and t.fecFin between :fecStart AND :fecEnd")
+    public List<Trabajo> getTrabajosFinalizadosFromTrabajadorBtwFechas(@Param("codT")String codTrabajador,@Param("fecStart")LocalDate fecStart,@Param("fecEnd")LocalDate fecEnd);
     @Query("SELECT t FROM Trabajo t ORDER BY prioridad")
     public List<Trabajo> getTrabajosPrio();
     @Query("SELECT t FROM Trabajo t WHERE t.idTrabajador.idTrabajador=:codT AND t.prioridad=:prio")

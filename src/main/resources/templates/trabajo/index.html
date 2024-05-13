@@ -31,7 +31,7 @@
                     <div class="card-body text-end text-black-50">
                         <div class="row">
                             <div class="col-6 text-start">Tiempo:</div>
-                            <div class="col-6" th:text="${trabajo.tiempo}+h"></div>
+                            <div class="col-6" th:text="${trabajo.tiempo!=null} ? ${trabajo.tiempo}+'h':'No hay tiempo registrado'"></div>
                         </div>
                         <div class="row">
                             <div class="col-6 text-start">Prioridad:</div>

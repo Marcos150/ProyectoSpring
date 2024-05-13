@@ -1,5 +1,6 @@
 package com.example.proyectospring.services.trabajo;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -22,7 +23,7 @@ public interface ITrabajoService
     public List<Trabajo> getTrabajosNoAsignados();
     public List<Trabajo> getTrabajosSinFinalizar();
     public List<Trabajo> getTrabajosRealizados();
-    public List<Trabajo> getTrabajosFinalizadosFromTrabajadorBtwFechas(String codTrabajador,java.util.Date fecStart,java.util.Date fecEnd);
+    public List<Trabajo> getTrabajosFinalizadosFromTrabajadorBtwFechas(String codTrabajador,LocalDate fecStart,LocalDate fecEnd) throws NoSuchElementException;
     public List<Trabajo> getTrabajosPrio();
     public List<Trabajo> getTrabajosTrabajadorByPrio(String codTrabajador, String prio, String pass) throws EvaluationException,NoSuchElementException,Exception,NumberFormatException;
     public void finalizarTrabajo(String codTrabajo) throws NotFoundException;

@@ -1,6 +1,7 @@
 package com.example.proyectospring.controllers.trabajo;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.*;
 
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,10 +11,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.expression.EvaluationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.proyectospring.entities.trabajador.Trabajador;
 import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.services.trabajo.ITrabajoService;
 
@@ -23,14 +27,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityExistsException;
 import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @CrossOrigin(origins = {"*"})
 @RestController
@@ -38,34 +34,47 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class TrabajoRestController{
     @Autowired
     private ITrabajoService service;
-    @Operation(summary = "Retrieves every job in database.",description = "")
-    @ApiResponse(responseCode = "200",description = "Succesfully retrieved")
-    @GetMapping({"","/"})
+    @Operation(summary = "Retrieves every job in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
+    @GetMapping("")
     public List<Trabajo> getAll() {
         return service.getAllTrabajos();
     }
-    @GetMapping({"/not/join","/not/join/"})
+    @Operation(summary = "Retrieves every unasigned job in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
+    @GetMapping("/not/join")
     public List<Trabajo> getTrabajosNoAsignados() {
         return service.getTrabajosNoAsignados();
     }
-    @GetMapping({"/not/finished","/not/finished/"})
+    @GetMapping("/not/finished")
     public List<Trabajo> getTrabajosSinFinalizar() {
         return service.getTrabajosSinFinalizar();
     }
-    @GetMapping({"/finished","/finished/"})
+    @GetMapping("/finished")
     public List<Trabajo> getTrabajosRealizados() {
         return service.getTrabajosRealizados();
     }
     //TODO Añadir validaciones para fecha y request param por pasar (Comprobar rangos, ver si el id se corresponde en bd)
-    @GetMapping({"/btwdatesworker","/btwdatesworker/"})
-    public List<Trabajo> getTrabajosFinalizadosFromTrabajadorBtwFechas(@RequestParam String id, @RequestParam Date fecIni, @RequestParam Date fecFin) {
-        return service.getTrabajosFinalizadosFromTrabajadorBtwFechas(null, null, null);
+    @GetMapping("/btwdatesworker")
+    public Object getTrabajosFinalizadosFromTrabajadorBtwFechas(@RequestParam String id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecIni, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecFin){
+        Map<String, Object> responseMap=new HashMap<String, Object>();
+        try{
+        return service.getTrabajosFinalizadosFromTrabajadorBtwFechas(id, fecIni, fecFin);
+       }catch(NoSuchElementException e){
+        responseMap.put("error", "El id de trabajo no existe en la base de datos");
+        responseMap.put("message", e.getMessage());
+        return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.NOT_FOUND);
+       }
+
+
     }
-    @GetMapping({"/prio","/prio/"})
+    @GetMapping("/prio")
     public List<Trabajo> getTrabajosPrio() {
         return service.getTrabajosPrio();
     }
-    @GetMapping({"/workerprio","/workerprio/"})
+    @GetMapping("/workerprio")
     public ResponseEntity<?> getTrabajosTrabajadorPrio(@RequestParam String id, @RequestParam String prio, @RequestHeader("password")String pass) {
         Map<String, Object> responseMap=new HashMap<String, Object>();
         try{
@@ -91,7 +100,7 @@ public class TrabajoRestController{
         return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.BAD_REQUEST);
 
     }
-    @GetMapping({"/{id}","/{id}/"})
+    @GetMapping("/{id}")
     public ResponseEntity<?> getTrabajoById(@PathVariable @Parameter(name = "id",description = "lord",example = "1") String id) {
         Map<String, Object> responseMap=new HashMap<String, Object>();
         try{
@@ -107,7 +116,7 @@ public class TrabajoRestController{
         }
 
     }
-    @PostMapping({"","/"})
+    @PostMapping("")
     public ResponseEntity<?> postTrabajo(@RequestBody(required = false) @Valid() Trabajo trabajo){
 
         Map<String, Object> responseMap=new HashMap<String, Object>();
@@ -121,7 +130,7 @@ public class TrabajoRestController{
 
 
     }
-    @PutMapping({"/{id}","/{id}/"})
+    @PutMapping("/{id}")
     public ResponseEntity<?> putTrabajo(@PathVariable String id, @RequestBody(required = false) @Valid() Trabajo trabajo) {
         Map<String, Object> responseMap=new HashMap<String, Object>();
         if(!id.equals(trabajo.getCodTrabajo())){
@@ -137,7 +146,7 @@ public class TrabajoRestController{
             return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.NOT_FOUND);
         }
     }
-    @DeleteMapping({"/{id}","/{id}/"})
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTrabajo(@PathVariable String id){
         Map<String, Object> responseMap=new HashMap<String, Object>();
         try{
@@ -151,10 +160,6 @@ public class TrabajoRestController{
             responseMap.put("message", e.getMessage());
             return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.BAD_REQUEST);
         }
-    }
-    @GetMapping({"/"})
-    public String getMethodName(@RequestParam String param) {
-        return new String();
     }
 
     @PatchMapping("/finalizar/{id}")
