@@ -24,12 +24,12 @@
                 <a href="" class="p-3 text-decoration-none link-info">
                     <div class="card">
                         <div class="card-title text-center bg-success rounded-top-1 text-white"
-                             th:text="${trabajador.nombre}"></div>
-                        <div class="card-body text-start ps-5" th:text="${trabajador.apellidos}"></div>
+                             th:text="${trabajador.idTrabajador}"></div>
+                        <div class="card-body text-start ps-5" th:text="${trabajador.nombre} + ' ' + ${trabajador.apellidos}"></div>
                         <div class="card-body text-end text-black-50">
                             <div class="row">
-                                <div class="col-6 text-start">Id del trabajador:</div>
-                                <div class="col-6" th:text="${trabajador.idTrabajador}"></div>
+                                <div class="col-6 text-start">DNI del trabajador:</div>
+                                <div class="col-6" th:text="${trabajador.dni}"></div>
                             </div>
                             <div class="row">
                                 <div class="col-6 text-start">Especialidad:</div>
@@ -39,8 +39,7 @@
 
                         <div class="card-footer">
                             <div class="row">
-                                <div class="col-6 text-center" th:text="${trabajador.email}"></div>
-                                <div class="col-6 text-center" th:text="${trabajador.dni}"></div>
+                                <div class="text-center" th:text="${trabajador.email}"></div>
                             </div>
                         </div>
                     </div>
