@@ -14,7 +14,7 @@
 <nav th:insert="~{/shared/navbar :: #navigator}"></nav>
 <main>
     <form class="card p-3 mb-2" th:action="@{/app/trabajador/put/}+${trabajador.idTrabajador}" method="post" content>
-        <div class="text-bg-primary p-3 text-center">Formulario de edición de trabajador</div>
+        <div class="text-bg-warning p-3 text-center">Formulario de edición de trabajador</div>
         <div class="alert alert-danger" th:if="${error != null}" th:text="${error}"></div>
         <label for="idTrabajador" class="form-label">Id del trabajador</label>
         <div class="alert alert-danger" th:if="${idTrabajador != null}" th:text="${idTrabajador}"></div>
@@ -28,7 +28,6 @@
         <textarea name="nombre" id="nombre" cols="30" rows="10" class="form-control"
                   th:field="${trabajador.nombre}"></textarea>
         <label for="apellidos">Apellidos:</label>
-        <!--<div class="alert alert-danger" th:if="${dateRange != null}" th:text="${dateRange}"></div>-->
         <div class="alert alert-danger" th:if="${apellidos != null}" th:text="${apellidos}"></div>
         <input class="form-control" type="text" name="apellidos" id="apellidos" th:value="${trabajador.apellidos}">
         <label for="especialidad">Especialidad:</label>
@@ -42,7 +41,7 @@
         <label for="email">Email:</label>
         <div class="alert alert-danger" th:if="${email != null}" th:text="${email}"></div>
         <input class="form-control" type="email" name="email" id="email" th:value="${trabajador.email}">
-        <button class="btn btn-primary m-auto mt-1 p-2" type="submit">Modificar trabajador</button>
+        <button class="btn btn-warning m-auto mt-1 p-2" type="submit">Modificar trabajador</button>
     </form>
 </main>
 </body>

@@ -1,9 +1,11 @@
 package com.example.proyectospring.entities.trabajador;
 
 import com.example.proyectospring.entities.trabajo.Trabajo;
+import com.example.proyectospring.validators.api.Dni;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -26,6 +28,7 @@ public class Trabajador implements java.io.Serializable
     @Size(max = 9, min = 9, message = "La longitud del dni es de 9 caracteres")
     @NotNull(message = "No puede ser nulo")
     @NotEmpty(message = "El campo dni no puede estar vacío")
+    @Dni(message = "El formato del DNI no es correcto")
     private String dni;
 
     @Column(name = "nombre", nullable = false, length = 100)
@@ -56,6 +59,7 @@ public class Trabajador implements java.io.Serializable
     @Size(max = 100, message = "La longitud máxima del email es de 100 caracteres") //TODO: Realmente la longitud maxima de un correo es de 255 chars
     @NotNull(message = "No puede ser nulo")
     @NotEmpty(message = "El campo email no puede estar vacío")
+    @Email(message = "El formato del email no es correcto")
     private String email;
     @OneToMany(mappedBy = "idTrabajador",fetch = FetchType.LAZY)
     @JsonManagedReference
