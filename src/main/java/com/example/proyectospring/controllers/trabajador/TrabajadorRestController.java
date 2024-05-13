@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -90,7 +91,7 @@ public class TrabajadorRestController {
             })})
     })
     @PostMapping({"", "/"})
-    public ResponseEntity<?> postTrabajo(@RequestBody(required = false) @Parameter(description = "Trabajador a insertar") Trabajador trabajador) {
+    public ResponseEntity<?> postTrabajo(@RequestBody(required = false) @Valid @Parameter(description = "Trabajador a insertar") Trabajador trabajador) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.save(trabajador), HttpStatus.OK);
@@ -123,7 +124,7 @@ public class TrabajadorRestController {
             })})
     })
     @PutMapping({"/{id}"})
-    public ResponseEntity<?> putTrabajador(@PathVariable @Parameter(description = "Id del trabajador a editar", example = "1") String id, @RequestBody(required = false) Trabajador trabajador) {
+    public ResponseEntity<?> putTrabajador(@PathVariable @Parameter(description = "Id del trabajador a editar", example = "1") String id, @RequestBody(required = false) @Valid Trabajador trabajador) {
         Map<String, Object> responseMap = new HashMap<>();
         if (!id.equals(trabajador.getIdTrabajador())) trabajador.setIdTrabajador(id);
         try {

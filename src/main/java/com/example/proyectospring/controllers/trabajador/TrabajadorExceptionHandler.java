@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@RestControllerAdvice(assignableTypes = TrabajadorViewController.class)
+@RestControllerAdvice(assignableTypes = {TrabajadorViewController.class, TrabajadorRestController.class})
 public class TrabajadorExceptionHandler {
     private final TrabajadorService service;
     private Trabajador trabajador;
