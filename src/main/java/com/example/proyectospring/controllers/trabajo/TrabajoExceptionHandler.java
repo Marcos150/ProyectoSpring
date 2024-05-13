@@ -60,7 +60,10 @@ public class TrabajoExceptionHandler {
                                 }else{
                                     m.invoke(job, req.getParameter(field.getName()));
                                 }
-                            } catch (IllegalAccessException | DateTimeParseException | InvocationTargetException | IllegalArgumentException e) {
+                            }catch(NumberFormatException o){
+                                o.printStackTrace();
+                            }
+                             catch (IllegalAccessException | DateTimeParseException | InvocationTargetException | IllegalArgumentException e) {
                                 e.printStackTrace();
                             }
                         }
