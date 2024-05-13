@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.expression.EvaluationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -196,8 +197,20 @@ public class TrabajadorRestController {
             })})
     })
     @PostMapping({"/login"})
-    public List<Trabajo> login(@RequestBody String id_trabajador, @RequestBody String password) {
-        return service.getTrabajosByTrabajador(id_trabajador, password);
+    public Object login(@RequestParam String idTrabajador, @RequestHeader("password")String pass) {
+        Map<String, Object> responseMap = new HashMap<>();
+        try {
+            return service.getTrabajosByTrabajador(idTrabajador, pass);
+        } catch (ChangeSetPersister.NotFoundException | EvaluationException e) {
+            //Por seguridad, no se dice que no existe un trabajador con el id introducido cuando esto sucede
+            responseMap.put("error", "Las credenciales introducidas no son correctas");
+            responseMap.put("message", "Not in database");
+            return new ResponseEntity<>(responseMap, HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            responseMap.put("error", "Se ha producido un error al formular la petición");
+            responseMap.put("message", "Bad request");
+            return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @Operation(summary = "Si el id y la contraseña del trabajador son correctos, devuelve una lista con los trabajos finalizados del trabajador")
@@ -221,14 +234,19 @@ public class TrabajadorRestController {
             })})
     })
     @PostMapping({"/trabajos-finalizados"})
-    public List<Trabajo> trabajosFinalizados(@RequestBody(required = false) String id_trabajador, @RequestBody(required = false) String password) {
+    public Object trabajosFinalizados(@RequestParam String idTrabajador, @RequestHeader("password")String pass) {
+        Map<String, Object> responseMap = new HashMap<>();
         try {
-            System.out.println("Id trabajador:" + id_trabajador);
-            System.out.println("Pass:" + password);
-            return service.getTrabajosByTrabajadorFinalizados(id_trabajador, password);
+            return service.getTrabajosByTrabajadorFinalizados(idTrabajador, pass);
+        } catch (ChangeSetPersister.NotFoundException | EvaluationException e) {
+            //Por seguridad, no se dice que no existe un trabajador con el id introducido cuando esto sucede
+            responseMap.put("error", "Las credenciales introducidas no son correctas");
+            responseMap.put("message", "Not in database");
+            return new ResponseEntity<>(responseMap, HttpStatus.UNAUTHORIZED);
         } catch (Exception e) {
-            System.out.println("Pass: " + password);
-            return service.getTrabajosByTrabajadorFinalizados(id_trabajador, password);
+            responseMap.put("error", "Se ha producido un error al formular la petición");
+            responseMap.put("message", "Bad request");
+            return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
         }
     }
 }
