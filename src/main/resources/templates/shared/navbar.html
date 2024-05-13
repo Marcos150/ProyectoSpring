@@ -7,10 +7,10 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Sección Trabajos</a>
+            <a class="nav-link" th:classappend="${trabajos!=null || trabajo!=null} ? 'active' : ''" href="/app/trabajo">Sección Trabajos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Sección Trabajadores</a>
+            <a class="nav-link" th:classappend="${trabajadores!=null || trabajador!=null} ? 'active' : ''" href="/app/trabajador">Sección Trabajadores</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -21,7 +21,7 @@
               <li><a class="dropdown-item" href="#">Actualizar</a></li>
               <li><a class="dropdown-item" href="#">Borrar</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Hacer algo misterioso</a></li>
+              <li><a class="dropdown-item" href="https://marcosruizrubio.com/multimedia/suprise.mp4" target="_blank">Hacer algo misterioso</a></li>
             </ul>
           </li>
         </ul>

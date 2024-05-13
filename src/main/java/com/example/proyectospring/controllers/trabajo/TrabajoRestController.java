@@ -1,12 +1,13 @@
 package com.example.proyectospring.controllers.trabajo;
 
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.expression.EvaluationException;
 import org.springframework.http.HttpStatus;
@@ -156,8 +157,52 @@ public class TrabajoRestController{
         return new String();
     }
 
-    @PostMapping({"/login"})
-    public List<Trabajo> login(@RequestBody String id_trabajador, @RequestBody String password) {
-        return service.getTrabajosByTrabajador(id_trabajador, password);
+    @PatchMapping("/finalizar/{id}")
+    @Operation(summary = "Cambia la fecha de finalización del trabajo pasado con el código por parámetro a la fecha actual")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fecha de finalización modificada con éxito"),
+            @ApiResponse(responseCode = "404", description = "No existe un trabajo con el código pasado por parámetro"),
+            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición")
+    })
+    public ResponseEntity<?> finalizarTrabajo(@PathVariable @Parameter(description = "Código del trabajo") String id) {
+        try {
+            service.finalizarTrabajo(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NotFoundException e) {
+            Map<String, Object> responseMap= new HashMap<>();
+            responseMap.put("error", "No se ha encontrado un trabajo con el código pasado por parámetro");
+            responseMap.put("message", "Not in database");
+            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            Map<String, Object> responseMap= new HashMap<>();
+            responseMap.put("error", "Error al formular la petición");
+            responseMap.put("message", "Bad request");
+            return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PatchMapping("/asignar/{id}")
+    @Operation(summary = "Asigna el trabajo con el código pasado por parámetro al trabajador con el id pasado por parámetro")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Trabajador asignado con éxito"),
+            @ApiResponse(responseCode = "404", description = "No existe un trabajo o trabajador con el código pasado por parámetro"),
+            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición")
+    })
+    public ResponseEntity<?> asignarTrabajo(@PathVariable @Parameter(description = "Código del trabajo") String id, @RequestParam @Parameter(description = "Id del trabajador") String idT) {
+        try {
+            service.asignarTrabajo(id, idT);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (NotFoundException | DataIntegrityViolationException e) { //Spring tira DataIntegrity cuando no hay trabajador con el id especificado
+            Map<String, Object> responseMap= new HashMap<>();
+            String palabra = e.getClass() == NotFoundException.class ? "trabajo" : "trabajador";
+            responseMap.put("error", "No se ha encontrado un "+ palabra + " con el código pasado por parámetro");
+            responseMap.put("message", "Not in database");
+            return new ResponseEntity<>(responseMap, HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            Map<String, Object> responseMap= new HashMap<>();
+            responseMap.put("error", "Error al formular la petición");
+            responseMap.put("message", "Bad request");
+            return new ResponseEntity<>(responseMap, HttpStatus.BAD_REQUEST);
+        }
     }
 }

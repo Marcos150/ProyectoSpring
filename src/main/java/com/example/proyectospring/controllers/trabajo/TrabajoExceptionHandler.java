@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.example.proyectospring.controllers.trabajador.TrabajadorViewController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -23,7 +24,7 @@ import com.example.proyectospring.services.trabajo.impl.TrabajoService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@RestControllerAdvice
+@RestControllerAdvice(assignableTypes = TrabajoViewController.class)
 public class TrabajoExceptionHandler {
     @Autowired
     private TrabajoService service;

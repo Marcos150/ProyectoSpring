@@ -91,10 +91,13 @@ public class TrabajoService implements ITrabajoService
         return repository.getTrabajosTrabajadorByPrio(codTrabajador,prioN);
     }
 
-
     @Override
-    public List<Trabajo> getTrabajosByTrabajador(String id, String password) {
-        return repository.getTrabajosByTrabajador(id, password);
+    public void finalizarTrabajo(String codTrabajo) throws NotFoundException {
+        if (repository.finalizarTrabajo(codTrabajo) <= 0) throw new NotFoundException();
     }
 
+    @Override
+    public void asignarTrabajo(String codTrabajador, String idTrabajador) throws NotFoundException {
+        if (repository.asignarTrabajo(codTrabajador,idTrabajador) <= 0) throw  new NotFoundException();
+    }
 }
