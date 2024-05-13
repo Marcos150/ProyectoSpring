@@ -4,6 +4,7 @@ import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.validators.api.Dni;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -29,6 +30,7 @@ public class Trabajador implements java.io.Serializable
     @NotNull(message = "No puede ser nulo")
     @NotEmpty(message = "El campo dni no puede estar vacío")
     @Dni(message = "El formato del DNI no es correcto")
+    @Schema(example = "123456789E") //Ejemplo para la documentacion
     private String dni;
 
     @Column(name = "nombre", nullable = false, length = 100)

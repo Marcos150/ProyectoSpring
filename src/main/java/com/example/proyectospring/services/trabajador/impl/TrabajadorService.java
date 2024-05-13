@@ -1,11 +1,13 @@
 package com.example.proyectospring.services.trabajador.impl;
 
+import com.example.proyectospring.auth.middleware;
 import com.example.proyectospring.entities.trabajador.Trabajador;
 import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.repositories.trabajador.TrabajadorRepository;
 import com.example.proyectospring.services.trabajador.ITrabajadorService;
 import jakarta.persistence.EntityExistsException;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.expression.EvaluationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class TrabajadorService implements ITrabajadorService {
 
     @Override
     public Trabajador save(Trabajador trabajador) throws EntityExistsException {
-        if(repository.existsById(trabajador.getIdTrabajador())) throw new EntityExistsException("Already in database, use update endpoint");
+        if(repository.existsById(trabajador.getIdTrabajador())) throw new EntityExistsException("Already in database, use update endpoint instead");
         return repository.save(trabajador);
     }
 
@@ -51,12 +53,16 @@ public class TrabajadorService implements ITrabajadorService {
     }
 
     @Override
-    public List<Trabajo> getTrabajosByTrabajador(String id, String password) {
+    public List<Trabajo> getTrabajosByTrabajador(String id, String password) throws ChangeSetPersister.NotFoundException {
+        if(!repository.existsById(id)) throw new ChangeSetPersister.NotFoundException();
+        middleware.authTrabajador(password, repository.findById(id).get());
         return repository.getTrabajosByTrabajador(id, password);
     }
 
     @Override
-    public List<Trabajo> getTrabajosByTrabajadorFinalizados(String id, String password) {
+    public List<Trabajo> getTrabajosByTrabajadorFinalizados(String id, String password) throws ChangeSetPersister.NotFoundException {
+        if(!repository.existsById(id)) throw new ChangeSetPersister.NotFoundException();
+        middleware.authTrabajador(password, repository.findById(id).get());
         return repository.getTrabajosByTrabajadorFinalizados(id, password);
     }
 }
