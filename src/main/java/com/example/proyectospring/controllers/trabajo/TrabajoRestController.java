@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,15 +49,30 @@ public class TrabajoRestController{
     public List<Trabajo> getTrabajosNoAsignados() {
         return service.getTrabajosNoAsignados();
     }
+    @Operation(summary = "Retrieves every unfinished job in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
     @GetMapping("/not/finished")
     public List<Trabajo> getTrabajosSinFinalizar() {
         return service.getTrabajosSinFinalizar();
     }
+    @Operation(summary = "Retrieves every finished job in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
     @GetMapping("/finished")
     public List<Trabajo> getTrabajosRealizados() {
         return service.getTrabajosRealizados();
     }
     //TODO Añadir validaciones para fecha y request param por pasar (Comprobar rangos, ver si el id se corresponde en bd)
+    @Operation(summary = "Retrieves every job from worker between end date params in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
+    @ApiResponse(responseCode = "404",description = "Not found exception",content =
+                    {@Content(mediaType = "application/json", examples = {@ExampleObject("                                    {\n" + //
+                    "\"error\": \"No se ha encontrado un trabajo con el id introducido\",\n" + //
+                    "\"message\": \"Not in database\"\n" + //
+                    "}")})})
+                    
     @GetMapping("/btwdatesworker")
     public Object getTrabajosFinalizadosFromTrabajadorBtwFechas(@RequestParam String id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecIni, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fecFin){
         Map<String, Object> responseMap=new HashMap<String, Object>();
@@ -70,10 +86,16 @@ public class TrabajoRestController{
 
 
     }
+    @Operation(summary = "Retrieves every job in database sorted by priority.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
     @GetMapping("/prio")
     public List<Trabajo> getTrabajosPrio() {
         return service.getTrabajosPrio();
     }
+    @Operation(summary = "Retrieves every job in database by worker and priority. Also, checks headers for worker password")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
     @GetMapping("/workerprio")
     public ResponseEntity<?> getTrabajosTrabajadorPrio(@RequestParam String id, @RequestParam String prio, @RequestHeader("password")String pass) {
         Map<String, Object> responseMap=new HashMap<String, Object>();
@@ -100,6 +122,9 @@ public class TrabajoRestController{
         return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.BAD_REQUEST);
 
     }
+    @Operation(summary = "Retrieves job by id in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
     @GetMapping("/{id}")
     public ResponseEntity<?> getTrabajoById(@PathVariable @Parameter(name = "id",description = "lord",example = "1") String id) {
         Map<String, Object> responseMap=new HashMap<String, Object>();
@@ -116,6 +141,9 @@ public class TrabajoRestController{
         }
 
     }
+    @Operation(summary = "Adds job in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
     @PostMapping("")
     public ResponseEntity<?> postTrabajo(@RequestBody(required = false) @Valid() Trabajo trabajo){
 
@@ -130,6 +158,9 @@ public class TrabajoRestController{
 
 
     }
+    @Operation(summary = "Updates job by id in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
     @PutMapping("/{id}")
     public ResponseEntity<?> putTrabajo(@PathVariable String id, @RequestBody(required = false) @Valid() Trabajo trabajo) {
         Map<String, Object> responseMap=new HashMap<String, Object>();
@@ -146,6 +177,9 @@ public class TrabajoRestController{
             return new ResponseEntity<Map<String,Object>>(responseMap,HttpStatus.NOT_FOUND);
         }
     }
+    @Operation(summary = "Delete job by id in database.")
+    @ApiResponse(responseCode = "200",description = "Succesfully retrieved",content =
+                    {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajo.class))})
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteTrabajo(@PathVariable String id){
         Map<String, Object> responseMap=new HashMap<String, Object>();
