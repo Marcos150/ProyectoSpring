@@ -47,6 +47,7 @@ public class Trabajo implements java.io.Serializable
 
     @Column(name = "tiempo", precision = 4, scale = 1)
     @Min(value = 0, message = "La longitud mínima es de 0")
+    @NotEmpty(message = "No puede estar vacío")
     private BigDecimal tiempo;
 
     @ManyToOne(fetch = FetchType.LAZY)
