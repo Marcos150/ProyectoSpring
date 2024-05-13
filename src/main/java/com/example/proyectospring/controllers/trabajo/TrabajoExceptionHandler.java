@@ -24,7 +24,7 @@ import com.example.proyectospring.services.trabajo.impl.TrabajoService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@RestControllerAdvice(assignableTypes = TrabajoViewController.class)
+@RestControllerAdvice(assignableTypes = {TrabajoRestController.class,TrabajoViewController.class})
 public class TrabajoExceptionHandler {
     @Autowired
     private TrabajoService service;

@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import static java.util.Map.entry;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,8 @@ public class TrabajoService implements ITrabajoService
     }
 
     @Override
-    public List<Trabajo> getTrabajosFinalizadosFromTrabajadorBtwFechas(String codTrabajador, Date fecStart, Date fecEnd) {
+    public List<Trabajo> getTrabajosFinalizadosFromTrabajadorBtwFechas(String codTrabajador, LocalDate fecStart, LocalDate fecEnd) throws NoSuchElementException {
+        repository.findById(codTrabajador).get();
         return repository.getTrabajosFinalizadosFromTrabajadorBtwFechas(codTrabajador, fecStart, fecEnd);
     }
 
