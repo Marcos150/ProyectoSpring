@@ -1,7 +1,6 @@
 package com.example.proyectospring.controllers.trabajador;
 
 import com.example.proyectospring.entities.trabajador.Trabajador;
-import com.example.proyectospring.entities.trabajo.Trabajo;
 import com.example.proyectospring.services.trabajador.ITrabajadorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -177,7 +176,7 @@ public class TrabajadorRestController {
         }
     }
 
-    @Operation(summary = "Si el id y la contraseña del trabajador son correctos, devuelve una lista con los trabajos asignados al trabajador")
+    @Operation(summary = "Si el id y la contraseña del trabajador son correctos, devuelve una lista con los trabajos pendientes del trabajador")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Las credenciales son correctas"),
             @ApiResponse(responseCode = "401", description = "Las credenciales introducidas no son correctas", content = {@Content(examples = {
@@ -198,7 +197,7 @@ public class TrabajadorRestController {
             })})
     })
     @PostMapping({"/login"})
-    public Object login(@RequestParam String idTrabajador, @RequestHeader("password")String pass) {
+    public Object login(@RequestParam @Parameter(example = "2") String idTrabajador, @RequestHeader("password") @Parameter(example = "password1234") String pass) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return service.getTrabajosByTrabajador(idTrabajador, pass);
@@ -235,7 +234,7 @@ public class TrabajadorRestController {
             })})
     })
     @PostMapping({"/trabajos-finalizados"})
-    public Object trabajosFinalizados(@RequestParam String idTrabajador, @RequestHeader("password")String pass) {
+    public Object trabajosFinalizados(@RequestParam @Parameter(example = "2") String idTrabajador, @RequestHeader("password") @Parameter(example = "password1234") String pass) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return service.getTrabajosByTrabajadorFinalizados(idTrabajador, pass);
