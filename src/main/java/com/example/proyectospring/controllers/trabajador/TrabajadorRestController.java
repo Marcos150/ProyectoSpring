@@ -31,20 +31,20 @@ public class TrabajadorRestController {
         this.service = service;
     }
 
-    @Operation(summary = "Devuelve todos los trabajadores")
+    @Operation(summary = "Retrieves all workers")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Trabajadores devueltos con éxito")
+            @ApiResponse(responseCode = "200", description = "Workers retrieved successfully")
     })
     @GetMapping({"", "/"})
     public List<Trabajador> getAll() {
         return service.getAllTrabajadores();
     }
 
-    @Operation(summary = "Devuelve el trabajador con el id pasado por parámetro")
+    @Operation(summary = "Retrieves worker with the id passed by parameter")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Trabajador devuelto con éxito", content =
+            @ApiResponse(responseCode = "200", description = "Worker retrieved successfully", content =
                     {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajador.class))}),
-            @ApiResponse(responseCode = "404", description = "No existe un trabajador con el id pasado por parámetro", content = {@Content(examples = {
+            @ApiResponse(responseCode = "404", description = "There is no worker with the specified id", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "No se ha encontrado un trabajador con el id introducido",
@@ -52,7 +52,7 @@ public class TrabajadorRestController {
                                 }
                             """)
             })}),
-            @ApiResponse(responseCode = "400", description = "Error en los datos pasados en el cuerpo de la petición", content = {@Content(examples = {
+            @ApiResponse(responseCode = "400", description = "Error in data passed by parameter", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "Se ha producido un error al formular la petición",
@@ -62,7 +62,7 @@ public class TrabajadorRestController {
             })})
     })
     @GetMapping({"/{id}"})
-    public ResponseEntity<?> getTrabajadorById(@PathVariable @Parameter(description = "Id del trabajador", example = "1") String id) {
+    public ResponseEntity<?> getTrabajadorById(@PathVariable @Parameter(description = "Worker ID", example = "1") String id) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.getTrabajadorById(id), HttpStatus.OK);
@@ -77,11 +77,11 @@ public class TrabajadorRestController {
         }
     }
 
-    @Operation(summary = "Añade el trabajador pasado por el cuerpo de la petición")
+    @Operation(summary = "Adds the worker passed in the body")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Trabajador insertado con éxito", content =
+            @ApiResponse(responseCode = "200", description = "Worker added successfully", content =
                     {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajador.class))}),
-            @ApiResponse(responseCode = "400", description = "Error en los datos pasados en el cuerpo de la petición", content = {@Content(examples = {
+            @ApiResponse(responseCode = "400", description = "Error with the data", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "Se ha producido un error durante la inserción",
@@ -91,7 +91,7 @@ public class TrabajadorRestController {
             })})
     })
     @PostMapping({"", "/"})
-    public ResponseEntity<?> postTrabajo(@RequestBody(required = false) @Valid @Parameter(description = "Trabajador a insertar") Trabajador trabajador) {
+    public ResponseEntity<?> postTrabajo(@RequestBody(required = false) @Valid @Parameter(description = "New worker") Trabajador trabajador) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.save(trabajador), HttpStatus.OK);
@@ -102,7 +102,7 @@ public class TrabajadorRestController {
         }
     }
 
-    @Operation(summary = "Edita el trabajador con el id pasado por parámetro y devuelve su estado antes de los cambios")
+    @Operation(summary = "Edits the worker specified and returns it with its changes made")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Trabajador editado con éxito", content =
                     {@Content(mediaType = "application/json", schema = @Schema(implementation = Trabajador.class))}),
@@ -124,7 +124,7 @@ public class TrabajadorRestController {
             })})
     })
     @PutMapping({"/{id}"})
-    public ResponseEntity<?> putTrabajador(@PathVariable @Parameter(description = "Id del trabajador a editar", example = "1") String id, @RequestBody(required = false) @Valid Trabajador trabajador) {
+    public ResponseEntity<?> putTrabajador(@PathVariable @Parameter(description = "Id of worker to edit", example = "1") String id, @RequestBody(required = false) @Valid Trabajador trabajador) {
         Map<String, Object> responseMap = new HashMap<>();
         if (!id.equals(trabajador.getIdTrabajador())) trabajador.setIdTrabajador(id);
         try {
@@ -140,10 +140,10 @@ public class TrabajadorRestController {
         }
     }
 
-    @Operation(summary = "Borra el trabajador con el id pasado por parámetro")
+    @Operation(summary = "Removes the worker with the specified ID")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Trabajador borrado con éxito"),
-            @ApiResponse(responseCode = "404", description = "No existe un trabajador con el id pasado por parámetro", content = {@Content(examples = {
+            @ApiResponse(responseCode = "200", description = "Worker removed successfully"),
+            @ApiResponse(responseCode = "404", description = "There is no worker with the specified ID", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "No se ha encontrado un trabajador con el id introducido",
@@ -151,7 +151,7 @@ public class TrabajadorRestController {
                                 }
                             """)
             })}),
-            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición", content = {@Content(examples = {
+            @ApiResponse(responseCode = "400", description = "Error with the request", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "Se ha producido un error durante el borrado",
@@ -161,7 +161,7 @@ public class TrabajadorRestController {
             })})
     })
     @DeleteMapping({"/{id}"})
-    public ResponseEntity<?> deleteTrabajo(@PathVariable @Parameter(description = "Id del trabajador a borrar", example = "1") String id) {
+    public ResponseEntity<?> deleteTrabajo(@PathVariable @Parameter(description = "Id of the worker to be removed", example = "1") String id) {
         Map<String, Object> responseMap = new HashMap<>();
         try {
             return new ResponseEntity<>(service.delete(id), HttpStatus.OK);
@@ -176,10 +176,10 @@ public class TrabajadorRestController {
         }
     }
 
-    @Operation(summary = "Si el id y la contraseña del trabajador son correctos, devuelve una lista con los trabajos pendientes del trabajador")
+    @Operation(summary = "If the id and the password are correct, returns a list with the workers pending jobs")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Las credenciales son correctas"),
-            @ApiResponse(responseCode = "401", description = "Las credenciales introducidas no son correctas", content = {@Content(examples = {
+            @ApiResponse(responseCode = "200", description = "Correct credentials"),
+            @ApiResponse(responseCode = "401", description = "Incorrect credentials", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "Las credenciales introducidas no son correctas",
@@ -187,7 +187,7 @@ public class TrabajadorRestController {
                                 }
                             """)
             })}),
-            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición", content = {@Content(examples = {
+            @ApiResponse(responseCode = "400", description = "Error in the request", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "Se ha producido un error al formular la petición",
@@ -213,10 +213,10 @@ public class TrabajadorRestController {
         }
     }
 
-    @Operation(summary = "Si el id y la contraseña del trabajador son correctos, devuelve una lista con los trabajos finalizados del trabajador")
+    @Operation(summary = "If the id and the password are correct, returns a list with the workers done jobs")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Las credenciales son correctas"),
-            @ApiResponse(responseCode = "401", description = "Las credenciales introducidas no son correctas", content = {@Content(examples = {
+            @ApiResponse(responseCode = "200", description = "Correct credentials"),
+            @ApiResponse(responseCode = "401", description = "Incorrect credentials", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "Las credenciales introducidas no son correctas",
@@ -224,7 +224,7 @@ public class TrabajadorRestController {
                                 }
                             """)
             })}),
-            @ApiResponse(responseCode = "400", description = "Error en la formulación de la petición", content = {@Content(examples = {
+            @ApiResponse(responseCode = "400", description = "Error in the request", content = {@Content(examples = {
                     @ExampleObject("""
                                 {
                                     "error": "Se ha producido un error al formular la petición",

@@ -197,7 +197,7 @@ public class TrabajoRestController{
     }
 
     @PatchMapping("/finalizar/{id}")
-    @Operation(summary = "Cambia la fecha de finalización del trabajo pasado con el código por parámetro a la fecha actual")
+    @Operation(summary = "Changes the finalization date to the current date")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fecha de finalización modificada con éxito"),
             @ApiResponse(responseCode = "404", description = "No existe un trabajo con el código pasado por parámetro"),
@@ -221,7 +221,7 @@ public class TrabajoRestController{
     }
 
     @PatchMapping("/asignar/{id}")
-    @Operation(summary = "Asigna el trabajo con el código pasado por parámetro al trabajador con el id pasado por parámetro")
+    @Operation(summary = "Assigns the job  passed by parameter with the worker passed by parameter")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Trabajador asignado con éxito"),
             @ApiResponse(responseCode = "404", description = "No existe un trabajo o trabajador con el código pasado por parámetro"),
